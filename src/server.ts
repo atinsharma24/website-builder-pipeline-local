@@ -1,6 +1,8 @@
 import Fastify from "fastify";
 import { z } from "zod";
 import dotenv from "dotenv";
+import fs from "fs-extra";
+import path from "path";
 import { Orchestrator } from "./orchestrator.js";
 
 dotenv.config();
@@ -10,6 +12,7 @@ const fastify = Fastify({
 });
 
 const orchestrator = new Orchestrator();
+const OUTPUT_DIR = process.env.OUTPUT_DIR || "./output";
 
 // HARDENING: Simple mutex/lock variable
 let isBuilding = false;
@@ -78,9 +81,13 @@ fastify.get("/health", async () => {
 // Start Server
 const start = async () => {
     try {
+        // Safety: Explicity ensure output directory exists on startup
+        await fs.ensureDir(OUTPUT_DIR);
+
         const PORT = process.env.PORT || 3000;
         await fastify.listen({ port: Number(PORT), host: "0.0.0.0" });
         console.log(`Server listening on http://0.0.0.0:${PORT}`);
+        console.log(`Output directory confirmed at: ${path.resolve(OUTPUT_DIR)}`);
     } catch (err) {
         fastify.log.error(err);
         process.exit(1);

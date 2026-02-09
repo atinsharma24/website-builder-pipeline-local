@@ -1,6 +1,9 @@
 import { execa } from "execa";
 import fs from "fs-extra";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const builderAgent = {
     /**
@@ -37,17 +40,25 @@ export const builderAgent = {
 
         // Command to run the local agent (Aider)
         // HARDENING: Using flags for non-interactive, cleaner execution.
-        // --yes: Always say yes to changes.
-        // --no-auto-commits: Don't git commit every change (optional, but requested).
-        // --message: The prompt.
+        // 1. Load model from env (default: ollama/deepseek-coder-v2)
+        const model = process.env.LOCAL_MODEL || "ollama/deepseek-coder-v2";
+
+        // 2. Construct Args
+        // - --model: Explicitly set the local model
+        // - --yes: Always say yes to changes
+        // - --no-auto-commits: Don't git noise
+        // - --message: The prompt
+        // - index.html: Explicit target file
 
         const args = [
+            "--model", model,
             "--yes",
             "--no-auto-commits",
-            "--message", instruction
+            "--message", instruction,
+            "index.html"
         ];
 
-        console.log(`[Builder] Starting build in ${workingDir}...`);
+        console.log(`[Builder] Starting build in ${workingDir} using model ${model}...`);
 
         try {
             // HARDENING: stdio 'inherit' to visualize progress/errors in real-time.
