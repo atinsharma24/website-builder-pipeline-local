@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production
+dist
+
+# Project
+output
+.env
+
+# Misc
+.DS_Store
+.npm
+*.log
+
+# Aider
+.aider*
+.aider.chat.history.md
+.aider.input.history

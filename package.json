@@ -1,0 +1,36 @@
+{
+  "name": "website-pipeline-api",
+  "version": "1.0.0",
+  "description": "Multi-Agent Website Builder Pipeline - Self-correcting generation loop with Cloud Auditor supervision",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "multi-agent",
+    "website-builder",
+    "fastify",
+    "gemini",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5",
+    "execa": "^9.5.2",
+    "fastify": "^5.2.1",
+    "fs-extra": "^11.2.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
